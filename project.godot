@@ -1,0 +1,27 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=3
+
+[application]
+
+config/name="STEALTH RTT"
+run/main_scene="res://scene/main.tscn"
+boot_splash/image="res://asset/2d/static/boot_splash.png"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/resizable=false
+window/size/fullscreen=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
