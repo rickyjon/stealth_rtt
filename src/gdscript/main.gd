@@ -7,7 +7,7 @@ extends Node
 func _input(event):
 	
 	
-	
+	get_node("a")
 	return;
 	print(event.get_class());
 	if (event.get_class() == "InputEventMouseMotion"):
