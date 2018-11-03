@@ -41,7 +41,7 @@ void CameraMovement::_input(Variant event) {
 	const Vector2 VEC2_ZERO = Vector2(0, 0);
 	Vector2 direction = Vector2(0, 0);
 
-	Vector2 iemm_pos;
+	Vector2 iem_pos;
 
 	if (((InputEvent *)((Object *)event))->get_class() == "InputEventMouseMotion") {
 		InputEventMouse *iem = (InputEventMouse *)((Object *)event); //TODO: rename *iem to iem
