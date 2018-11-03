@@ -48,9 +48,9 @@ void CameraMovement::_input(Variant event) {
 		iemm_pos = iemm->get_position();
 
 		// X-AXIS
-		if (iemm_pos.x >= (viewport_size-viewport_leeway).y) {
+		if (iemm_pos.x >= (viewport_size-viewport_leeway).x) {
 			direction += Vector2(1, 0);
-		} else if (iemm_pos.x <= (VEC2_ZERO+viewport_leeway).y) {
+		} else if (iemm_pos.x <= (VEC2_ZERO+viewport_leeway).x) {
 			direction += Vector2(-1, 0);
 		}
 
