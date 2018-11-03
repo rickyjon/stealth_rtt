@@ -6,4 +6,4 @@
 /godot-cpp/bin
 /src/*.os
 /src/*.o
-
+.import/
