@@ -4,6 +4,10 @@
 /bin
 /bin/*
 /godot-cpp/bin
+
+!/src
 /src/*.os
 /src/*.o
+/src/gdscript
+
 .import/
