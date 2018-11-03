@@ -6,6 +6,7 @@
 /godot-cpp/bin
 
 !/src
+!/src/*
 /src/*.os
 /src/*.o
 /src/gdscript
