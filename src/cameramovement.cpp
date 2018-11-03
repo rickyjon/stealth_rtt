@@ -28,6 +28,7 @@ void CameraMovement::_ready() {
 
 	viewport_size = owner->get_viewport()->get("size");
 	viewport_leeway = viewport_size/8;
+	camera_speed = 8;
 
 }
 
