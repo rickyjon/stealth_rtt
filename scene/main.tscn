@@ -69,10 +69,11 @@ scale = Vector2( 3, 3 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Node" type="Node" parent="." index="2"]
+[node name="UnitTree" type="Node" parent="." index="2"]
 
-[node name="Unit" type="Area2D" parent="Node" index="0"]
+[node name="Unit" type="Area2D" parent="UnitTree" index="0"]
 
+editor/display_folded = true
 position = Vector2( 252.78, 432.62 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -83,17 +84,17 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="Node/Unit" index="0"]
+[node name="Sprite" type="Sprite" parent="UnitTree/Unit" index="0"]
 
 modulate = Color( 0.0078125, 1, 0, 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Unit" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UnitTree/Unit" index="1"]
 
 shape = SubResource( 2 )
 
-[node name="Label" type="Label" parent="Node/Unit" index="2"]
+[node name="Label" type="Label" parent="UnitTree/Unit" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -114,7 +115,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="MoveCursor" type="Sprite" parent="Node" index="1"]
+[node name="MoveCursor" type="Sprite" parent="UnitTree" index="1"]
 
 modulate = Color( 0, 0.320312, 1, 1 )
 self_modulate = Color( 0.3125, 1, 0, 1 )
@@ -123,7 +124,62 @@ scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Camera2D" type="Camera2D" parent="." index="3"]
+[node name="UnitTree2" type="Node" parent="." index="3"]
+
+[node name="Unit" type="Area2D" parent="UnitTree2" index="0"]
+
+editor/display_folded = true
+position = Vector2( 867.775, 393.429 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="UnitTree2/Unit" index="0"]
+
+modulate = Color( 0.0078125, 1, 0, 1 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UnitTree2/Unit" index="1"]
+
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="UnitTree2/Unit" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 32.0
+margin_top = 1.0
+margin_right = 121.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "epi"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="MoveCursor" type="Sprite" parent="UnitTree2" index="1"]
+
+modulate = Color( 0, 0.320312, 1, 1 )
+self_modulate = Color( 0.3125, 1, 0, 1 )
+position = Vector2( 867.775, 393.429 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Camera2D" type="Camera2D" parent="." index="4"]
 
 position = Vector2( 640, 360 )
 anchor_mode = 1

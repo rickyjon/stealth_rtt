@@ -20,6 +20,8 @@ public:
 	Vector2 viewport_size; //screen_size
 	Vector2 viewport_leeway;
 	Vector2 process_direction;
+	*Unit selected_unit[];
+	char no_selected_unit;
 	CameraMovement();
 	~CameraMovement();
 	//void _init();

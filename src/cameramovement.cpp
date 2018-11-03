@@ -10,9 +10,11 @@
 using namespace godot;
 
 void CameraMovement::_register_methods() {
-    register_method((char *)"_process", &CameraMovement::_process);
-    register_method((char *)"_ready", &CameraMovement::_ready);
-    register_method((char *)"_input", &CameraMovement::_input);
+
+	register_method((char *)"_process", &CameraMovement::_process);
+	register_method((char *)"_ready", &CameraMovement::_ready);
+	register_method((char *)"_input", &CameraMovement::_input);
+
 }
 
 CameraMovement::CameraMovement() {}
@@ -20,7 +22,9 @@ CameraMovement::~CameraMovement() {}
 
 void CameraMovement::_process(float delta) {
 
-	owner->set_position(owner->get_position()+process_direction*Vector2(camera_speed, camera_speed));
+	owner->set_position(owner->get_position()+process_direction
+		*Vector2(camera_speed, camera_speed));
+
 
 }
 
@@ -29,22 +33,32 @@ void CameraMovement::_ready() {
 	viewport_size = owner->get_viewport()->get("size");
 	viewport_leeway = viewport_size/8;
 	camera_speed = 8;
+	/* TODO: find the first unit and add it to the "selected_unit",
+	 * add a fixed array of 4 as well.
+	 */
+	/* TODO: in unit, don't look for the node in the node tree,
+	 * instead look for the 'group' "unit_squad" or whatever
+	 */
+	//owner->
 
 }
 
+/**
+ * Get the vector of any mouse movement and
+ * set the _process to true if it's in near the edge of the screen.
+ */
 void CameraMovement::_input(Variant event) {
 
-
 	Label *a = (Label *)owner->get_node("Label"); //TODO: rename a to label
-
 
 	const Vector2 VEC2_ZERO = Vector2(0, 0);
 	Vector2 direction = Vector2(0, 0);
 
 	Vector2 iem_pos;
 
-	if (((InputEvent *)((Object *)event))->get_class() == "InputEventMouseMotion") {
-		InputEventMouse *iem = (InputEventMouse *)((Object *)event); //TODO: rename *iem to iem
+	if (((InputEvent *)((Object *)event))->get_class()
+			== "InputEventMouseMotion") {
+		InputEventMouse *iem = (InputEventMouse *)((Object *)event);
 
 		iem_pos = iem->get_position();
 

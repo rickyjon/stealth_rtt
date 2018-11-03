@@ -23,13 +23,9 @@ void Unit::_register_methods() {
 	//register_property((char *)"base/name", &Unit::_name, String("Unit"));
 }
 
-Unit::Unit() {
+Unit::Unit() {}
 
-}
-
-Unit::~Unit() {
-	// add your cleanup here
-}
+Unit::~Unit() {}
 
 void Unit::_ready() {
 
@@ -49,13 +45,12 @@ void Unit::_input(Variant event) {
 	InputEvent *ie = (InputEvent *)((Object *)event);
 
 	if (ie->get_class() == "InputEventMouseButton") {
-
 		get_move_cursor_position(ie);
-
 	} else {
-		if (ie->is_action("camera_center")) { //move this into cameramovement
-			((Camera2D *)owner->get_parent()->get_parent()->get_node("Camera2D"))
-				->set_position(owner->get_position());
+		if (ie->is_action("camera_center")) { //TODO:move this into cameramovement
+			((Camera2D *)owner->get_parent()->get_parent()
+				->get_node("Camera2D"))
+					->set_position(owner->get_position());
 		}
 	}
 
@@ -90,7 +85,7 @@ void Unit::move_to(Vector2 point_b) {
 
 	Vector2 pos = owner->get_position();
 	const int leeway = 20;
-	float deg = pos.angle_to_point(point_b)*180/3.141;
+	float deg = pos.angle_to_point(point_b)*180/3.141; //angle to degrees
 	Vector2 spd = (pos+Vector2(cos(-deg), -sin(-deg)));
 
 	s->set_position(point_b);
@@ -98,6 +93,7 @@ void Unit::move_to(Vector2 point_b) {
 	//s->set_global_position(point_b);
 	//owner->set_position(point_b);
 
+	//leeway
 	bool flag_x = (pos.x > point_b.x-leeway && pos.x < point_b.x+leeway);
 	bool flag_y = (pos.y > point_b.y-leeway && pos.y < point_b.y+leeway);
 
