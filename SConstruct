@@ -22,14 +22,14 @@ def add_sources(sources, directory):
 if platform == "osx":
     env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64', '-std=c++14'])
     env.Append(LINKFLAGS = ['-arch', 'x86_64'])
-    env.Append(LIBS=["godot-cpp" + "." + platform + "64"]) #TODO: get the bits
+    env.Append(LIBS=["godot-cpp" + "." + platform + "." + str(bits)])
 
 
     final_lib_path = final_lib_path + 'osx/'
 
 elif platform == "linux":
     env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++14'])
-    env.Append(LIBS=["godot-cpp" + "." + platform + "." + "release." + "64"])
+    env.Append(LIBS=["godot-cpp" + "." + platform + "." + "release." + str(bits)])
 
     final_lib_path = final_lib_path + 'x11/'
 
@@ -39,7 +39,7 @@ elif platform == "windows":
     else:
         env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
 
-    env.Append(LIBS=["godot-cpp" + "." + platform + "64"])
+    env.Append(LIBS=["godot-cpp" + "." + platform + "." + str(bits)])
 
     final_lib_path = final_lib_path + 'win' + str(bits) + '/'
 
