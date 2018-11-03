@@ -11,13 +11,14 @@ using namespace godot;
 
 void CameraMovement::_register_methods() {
     register_method((char *)"_process", &CameraMovement::_process);
+    register_method((char *)"_ready", &CameraMovement::_ready);
     register_method((char *)"_input", &CameraMovement::_input);
 }
 
 CameraMovement::CameraMovement() {
     // initialize any variables here
     time_passed = 0.0;
-    viewport_size = Vector2(1920, 1080); //TODO: get the screen resolution, by getting the viewport
+
 }
 
 CameraMovement::~CameraMovement() {
@@ -34,7 +35,14 @@ void CameraMovement::_process(float delta) {
 
 }
 
+void CameraMovement::_ready() {
+
+	viewport_size = owner->get_viewport()->get("size");
+
+}
+
 void CameraMovement::_input(Variant event) {
+
 
 	Label *a = (Label *)owner->get_node("Label"); //TODO: rename a to label
 

@@ -24,6 +24,7 @@ public:
 
 	void _process(float delta);
 	void _input(Variant event);
+	void _ready();
 
 	float get_time_passed();
 
