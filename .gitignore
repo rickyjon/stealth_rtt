@@ -1,4 +1,7 @@
 /bin
+!/bin/*.gdns
+!/bin/*.gdblib
 /godot-cpp/bin
 /src/*.os
 /src/*.o
+

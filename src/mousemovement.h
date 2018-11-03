@@ -1,5 +1,4 @@
 #ifndef MOUSEMOVEMENT_H
-
 #define MOUSEMOVEMENT_H
 
 #include <Godot.hpp>
@@ -11,22 +10,22 @@
 namespace godot {
 
 class CameraMovement : public godot::GodotScript<Camera2D> {
-    GODOT_CLASS(CameraMovement)
+	GODOT_CLASS(CameraMovement)
 
 public:
-    static void _register_methods();
+	static void _register_methods();
 
-    float time_passed;
-    Vector2 viewport_size; //screen_size
-    Vector2 process_direction;
-    CameraMovement();
-    ~CameraMovement();
-    //void _init();
+	float time_passed;
+	Vector2 viewport_size; //screen_size
+	Vector2 process_direction;
+	CameraMovement();
+	~CameraMovement();
+	//void _init();
 
-    void _process(float delta);
-    void _input(Variant event);
+	void _process(float delta);
+	void _input(Variant event);
 
-    float get_time_passed();
+	float get_time_passed();
 
 };
 

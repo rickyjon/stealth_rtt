@@ -18,6 +18,7 @@ def add_sources(sources, directory):
         if file.endswith('.cpp'):
             sources.append(directory + '/' + file)
 
+
 if platform == "osx":
     env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64', '-std=c++14'])
     env.Append(LINKFLAGS = ['-arch', 'x86_64'])
