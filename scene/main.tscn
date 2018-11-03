@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/gdscript/main.gd" type="Script" id=1]
 [ext_resource path="res://asset/2d/static/tmp.png" type="Texture" id=2]
-[ext_resource path="res://bin/cameramovement.gdns" type="Script" id=3]
+[ext_resource path="res://bin/Unit.gdns" type="Script" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://bin/cameramovement.gdns" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -31,8 +33,8 @@ audio_bus_name = "Master"
 
 [node name="wall" type="Sprite" parent="Wall" index="0"]
 
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 0, 0, 1 )
+modulate = Color( 0.570312, 0.570312, 0.570312, 1 )
+self_modulate = Color( 0.558594, 0.558594, 0.558594, 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -43,10 +45,9 @@ scale = Vector2( 3, 3 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Wall2" type="Area2D" parent="." index="1"]
+[node name="enemy" type="Area2D" parent="." index="1"]
 
-editor/display_folded = true
-position = Vector2( 359.333, 345.429 )
+position = Vector2( 169.059, 30.6496 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -55,23 +56,24 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 
-[node name="wall" type="Sprite" parent="Wall2" index="0"]
+[node name="wall" type="Sprite" parent="enemy" index="0"]
 
 modulate = Color( 1, 0, 0, 1 )
 self_modulate = Color( 1, 0, 0, 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy" index="1"]
 
 scale = Vector2( 3, 3 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Wall3" type="Area2D" parent="." index="2"]
+[node name="Node" type="Node" parent="." index="2"]
 
-editor/display_folded = true
-position = Vector2( 878.388, 449.274 )
+[node name="Unit" type="Area2D" parent="Node" index="0"]
+
+position = Vector2( 252.78, 432.62 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -79,88 +81,68 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
+script = ExtResource( 3 )
 
-[node name="wall" type="Sprite" parent="Wall3" index="0"]
-
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 0, 0, 1 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3" index="1"]
-
-scale = Vector2( 3, 3 )
-shape = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Wall4" type="Area2D" parent="." index="3"]
-
-editor/display_folded = true
-position = Vector2( 1188.02, -10.0485 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="wall" type="Sprite" parent="Wall4" index="0"]
-
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 0, 0, 1 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4" index="1"]
-
-scale = Vector2( 3, 3 )
-shape = SubResource( 1 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Unit" type="Area2D" parent="." index="4"]
-
-position = Vector2( 31.5173, 31.5173 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="Sprite" type="Sprite" parent="Unit" index="0"]
+[node name="Sprite" type="Sprite" parent="Node/Unit" index="0"]
 
 modulate = Color( 0.0078125, 1, 0, 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Unit" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Unit" index="1"]
 
 shape = SubResource( 2 )
 
-[node name="Node2D" type="Node2D" parent="." index="5"]
-
-editor/display_folded = true
-position = Vector2( 12.2694, 13.0811 )
-scale = Vector2( 1.38342, 1.40878 )
-
-[node name="Sprite" type="Sprite" parent="Node2D" index="0"]
-
-visible = false
-position = Vector2( 653.537, 554.074 )
-texture = ExtResource( 2 )
-
-[node name="Label" type="Label" parent="Node2D" index="1"]
+[node name="Label" type="Label" parent="Node/Unit" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 624.0
-margin_top = 495.0
-margin_right = 997.0
-margin_bottom = 593.0
+margin_left = 32.0
+margin_top = 1.0
+margin_right = 121.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "epi"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="MoveCursor" type="Sprite" parent="Node" index="1"]
+
+modulate = Color( 0, 0.320312, 1, 1 )
+self_modulate = Color( 0.3125, 1, 0, 1 )
+position = Vector2( 252.78, 432.62 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="junk" type="Node2D" parent="." index="3"]
+
+position = Vector2( 616.477, 232.106 )
+scale = Vector2( 1.38342, 1.40878 )
+
+[node name="Sprite" type="Sprite" parent="junk" index="0"]
+
+position = Vector2( -28.8836, -28.4976 )
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="junk" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -62.0
+margin_top = -77.0
+margin_right = 311.0
+margin_bottom = 21.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -172,9 +154,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Camera2D" type="Camera2D" parent="Node2D" index="2"]
+[node name="Camera2D" type="Camera2D" parent="." index="4"]
 
-position = Vector2( 960, 540 )
+position = Vector2( 640, 360 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -187,29 +169,29 @@ limit_smoothed = false
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = false
-smoothing_speed = 5.0
+smoothing_speed = 4.0
 offset_v = 0.0
 offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
+drag_margin_left = 0.0
+drag_margin_top = 0.0
+drag_margin_right = 0.0
+drag_margin_bottom = 0.0
 editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
-script = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 5 )
+_sections_unfolded = [ "Drag Margin", "Editor", "Offset", "Smoothing", "Transform" ]
 
-[node name="Label" type="Label" parent="Node2D/Camera2D" index="0"]
+[node name="Label" type="Label" parent="Camera2D" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -336.0
-margin_top = -45.0
-margin_right = 37.0
-margin_bottom = 53.0
+margin_left = -82.0
+margin_top = 14.0
+margin_right = 291.0
+margin_bottom = 112.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
