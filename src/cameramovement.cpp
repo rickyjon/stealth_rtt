@@ -44,21 +44,21 @@ void CameraMovement::_input(Variant event) {
 	Vector2 iemm_pos;
 
 	if (((InputEvent *)((Object *)event))->get_class() == "InputEventMouseMotion") {
-		InputEventMouse *iemm = (InputEventMouse *)((Object *)event); //TODO: rename *iemm to iem
+		InputEventMouse *iem = (InputEventMouse *)((Object *)event); //TODO: rename *iem to iem
 
-		iemm_pos = iemm->get_position();
+		iem_pos = iem->get_position();
 
 		// X-AXIS
-		if (iemm_pos.x >= (viewport_size-viewport_leeway).x) {
+		if (iem_pos.x >= (viewport_size-viewport_leeway).x) {
 			direction += Vector2(1, 0);
-		} else if (iemm_pos.x <= (VEC2_ZERO+viewport_leeway).x) {
+		} else if (iem_pos.x <= (VEC2_ZERO+viewport_leeway).x) {
 			direction += Vector2(-1, 0);
 		}
 
 		// Y-AXIS
-		if (iemm_pos.y >= (viewport_size-viewport_leeway).y) {
+		if (iem_pos.y >= (viewport_size-viewport_leeway).y) {
 			direction += Vector2(0, 1);
-		} else if (iemm_pos.y <= (VEC2_ZERO+viewport_leeway).y) {
+		} else if (iem_pos.y <= (VEC2_ZERO+viewport_leeway).y) {
 			direction += Vector2(0, -1);
 		}
 
