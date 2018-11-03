@@ -1,4 +1,4 @@
-#include "mousemovement.h"
+#include "cameramovement.h"
 #include <Label.hpp>
 #include <InputEventMouse.hpp>
 #include <InputEventMouseMotion.hpp>
@@ -15,29 +15,19 @@ void CameraMovement::_register_methods() {
     register_method((char *)"_input", &CameraMovement::_input);
 }
 
-CameraMovement::CameraMovement() {
-    // initialize any variables here
-    time_passed = 0.0;
-
-}
-
-CameraMovement::~CameraMovement() {
-    // add your cleanup here
-}
+CameraMovement::CameraMovement() {}
+CameraMovement::~CameraMovement() {}
 
 void CameraMovement::_process(float delta) {
 
-	const int SPEED = 12; //TODO: move this to the class
-
-	Vector2 speed = Vector2(SPEED, SPEED);
-	owner->set_position(owner->get_position()+process_direction*speed);
-
+	owner->set_position(owner->get_position()+process_direction*Vector2(camera_speed, camera_speed));
 
 }
 
 void CameraMovement::_ready() {
 
 	viewport_size = owner->get_viewport()->get("size");
+	viewport_leeway = viewport_size/8;
 
 }
 
@@ -46,7 +36,7 @@ void CameraMovement::_input(Variant event) {
 
 	Label *a = (Label *)owner->get_node("Label"); //TODO: rename a to label
 
-	const Vector2 LEEWAY = viewport_size/8;
+
 	const Vector2 VEC2_ZERO = Vector2(0, 0);
 	Vector2 direction = Vector2(0, 0);
 
@@ -58,16 +48,16 @@ void CameraMovement::_input(Variant event) {
 		iemm_pos = iemm->get_position();
 
 		// X-AXIS
-		if (iemm_pos[0] >= (viewport_size-LEEWAY)[0]) {
+		if (iemm_pos.x >= (viewport_size-viewport_leeway).y) {
 			direction += Vector2(1, 0);
-		} else if (iemm_pos[0] <= (VEC2_ZERO+LEEWAY)[0]) {
+		} else if (iemm_pos.x <= (VEC2_ZERO+viewport_leeway).y) {
 			direction += Vector2(-1, 0);
 		}
 
 		// Y-AXIS
-		if (iemm_pos[1] >= (viewport_size-LEEWAY)[1]) {
+		if (iemm_pos.y >= (viewport_size-viewport_leeway).y) {
 			direction += Vector2(0, 1);
-		} else if (iemm_pos[1] <= (VEC2_ZERO+LEEWAY)[1]) {
+		} else if (iemm_pos.y <= (VEC2_ZERO+viewport_leeway).y) {
 			direction += Vector2(0, -1);
 		}
 

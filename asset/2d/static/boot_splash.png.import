@@ -7,7 +7,10 @@ path="res://.import/boot_splash.png-68885bbc7de8aebb118d7dfb6118db41.stex"
 [deps]
 
 source_file="res://asset/2d/static/boot_splash.png"
+source_md5="e4cd7384f3c5908b2a0d1060252cc645"
+
 dest_files=[ "res://.import/boot_splash.png-68885bbc7de8aebb118d7dfb6118db41.stex" ]
+dest_md5="910f7953a9110423a2325361ea576642"
 
 [params]
 

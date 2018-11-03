@@ -59,7 +59,6 @@ void Unit::_input(Variant event) {
 		}
 	}
 
-
 }
 
 void Unit::get_move_cursor_position(InputEvent *ie) {
@@ -77,7 +76,6 @@ void Unit::get_move_cursor_position(InputEvent *ie) {
 
 		point_b = target;
 
-
 		owner->set_process(true);
 	}
 
@@ -90,25 +88,31 @@ void Unit::move_to(Vector2 point_b) {
 
 	Label *a = (Label *)owner->get_node("Label");
 
-
 	Vector2 pos = owner->get_position();
+	const int leeway = 20;
 	float deg = pos.angle_to_point(point_b)*180/3.141;
-	Godot::print(String::num_real(deg));
+	Vector2 spd = (pos+Vector2(cos(-deg), -sin(-deg)));
+
 	s->set_position(point_b);
+
 	//s->set_global_position(point_b);
 	//owner->set_position(point_b);
 
-	Godot::print(deg);
+	bool flag_x = (pos.x > point_b.x-leeway && pos.x < point_b.x+leeway);
+	bool flag_y = (pos.y > point_b.y-leeway && pos.y < point_b.y+leeway);
 
+	//Godot::print(String::num(deg));
+	//Godot::print(String::num(flag_x_1));
+	//Godot::print(String::num(flag_x_2));
+	//Godot::print(spd);
+	//Godot::print(spd.floor());
 
-	if (pos.x > point_b.x+10 || pos.x < point_b.x+10) {
-		owner->set_position(pos+Vector2(cos(-deg), -sin(-deg)));
-	} else {
+	if (flag_x && flag_y) {
 		owner->set_process(false);
-
+	} else {
+		owner->set_position(spd);
+		owner->look_at(point_b);
 	}
-
-
 
 }
 

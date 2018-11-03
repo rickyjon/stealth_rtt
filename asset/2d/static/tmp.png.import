@@ -7,7 +7,10 @@ path="res://.import/tmp.png-0a803fa001a80b8569454626c0fd78fc.stex"
 [deps]
 
 source_file="res://asset/2d/static/tmp.png"
+source_md5="48f37be28e21220fb42de78042ed21e8"
+
 dest_files=[ "res://.import/tmp.png-0a803fa001a80b8569454626c0fd78fc.stex" ]
+dest_md5="34ae9fc55c500969aca56e9a5b6996d5"
 
 [params]
 
