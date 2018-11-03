@@ -72,7 +72,7 @@ void CameraMovement::_input(Variant event) {
 		}
 
 		//position of the iem
-		a->set_text(iemm_pos);
+		a->set_text(iem_pos);
 
 	}
 
