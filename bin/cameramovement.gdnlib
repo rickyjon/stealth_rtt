@@ -8,7 +8,9 @@ reloadable=true
 [entry]
 
 X11.64="res://bin/x11/libplayer.so"
+Windows.64="res://bin/win64/libplayer.dll"
 
 [dependencies]
 
 X11.64=[  ]
+Windows.64=[]
