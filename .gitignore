@@ -7,8 +7,10 @@
 
 !/src
 !/src/*
+!/src/.*
 /src/*.os
 /src/*.o
 /src/gdscript
+
 
 .import/

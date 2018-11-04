@@ -1,34 +1,22 @@
 extends Node
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+onready var stored = OS.get_window_size();
+export var boundry = [Vector2(0,0), Vector2(1920*4,1080*2)];
 
 func _input(event):
+	#rewrite to C++/gdnative as a gdnative singleton (read up how to do that)
+	if event.is_class("InputEventKey"):
+		if event.is_pressed():
+			if event.scancode == KEY_F11:
+				OS.set_window_fullscreen(!OS.window_fullscreen);
+				if !OS.window_fullscreen:
+					OS.set_window_size(stored);
 	
-	return;
-	print(event.get_class());
-	if (event.get_class() == "InputEventMouseMotion"):
-		
-		var speed = Vector2(100, 100);
-		var pos =  event.get_position()
-		var c = get_node("Camera2D");
-		var c_pos = c.get_position();
-		
-		
-		#speed *= bool(c_pos)
-		
-		if (c_pos < Vector2(100, 100) ||c_pos < Vector2(222, 222) ):
-			c.set_global_position(c.get_position()+speed);
-		
-		get_node("Label").text = str(pos+speed);
-		#InputEventMouseMotion.speed;
-		print(1);
-	
-	pass;
+	pass;[]
 
 func _ready():
 	print(OS.get_name());
+	
 	set_process(true)
 	pass
 
