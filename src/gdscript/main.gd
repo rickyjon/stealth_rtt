@@ -11,15 +11,8 @@ func _input(event):
 				OS.set_window_fullscreen(!OS.window_fullscreen);
 				if !OS.window_fullscreen:
 					OS.set_window_size(stored);
-	
-	pass;[]
+	pass;
 
 func _ready():
-	print(OS.get_name());
-	
-	set_process(true)
-	pass
-
-func _process(delta):
 
 	pass

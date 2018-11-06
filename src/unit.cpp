@@ -3,15 +3,14 @@
 #include <InputEventMouse.hpp>
 #include <InputEventMouseButton.hpp>
 
+#include <CoreTypes.hpp>
 #include <InputMap.hpp>
-#include <Object.hpp>
 #include <Sprite.hpp>
 #include <Camera2D.hpp>
 #include <Viewport.hpp>
 #include <SceneTree.hpp>
 #include <AStar.hpp>
-#include <Label.hpp>
-#include <PoolArrays.hpp>
+#include <Color.hpp>
 
 using namespace godot;
 
@@ -20,20 +19,19 @@ void Unit::_register_methods() {
 	register_method((char *)"_process", &Unit::_process);
 	register_method((char *)"_ready", &Unit::_ready);
 	register_method((char *)"_input", &Unit::_input);
+	register_method((char *)"_draw", &Unit::_draw);
 	//register_method((char *)"_find_path", &Unit::find_path);
 	//register_property((char *)"base/name", &Unit::_name, String("Unit"));
+	register_property((char *)"selected", &Unit::selected, false);
 }
 
-Unit::Unit() {}
+Unit::Unit() {
+
+	selected = false;
+
+}
 
 Unit::~Unit() {}
-
-void Unit::_ready() {
-
-	point_b = owner->get_global_position();
-	owner->set_process(true);
-
-}
 
 void Unit::_process(float delta) {
 
@@ -41,55 +39,53 @@ void Unit::_process(float delta) {
 
 }
 
+void Unit::_ready() {
+
+	point_b = owner->get_global_position();
+	//selected = false;
+	//selected = !selected;
+	//owner->set_process(true);
+
+}
+
 void Unit::_input(Variant event) {
 
-	InputEvent *ie = (InputEvent *)((Object *)event);
+	InputEvent *ie = (InputEvent *)(Object *)event;
+
+	//Godot::print(owner->get_parent()->get_name()
+	//		+" IS SELECTED: "+String::num(selected));
 
 	if (ie->get_class() == "InputEventMouseButton") {
-		get_move_cursor_position(ie);
-	} else {
-		if (ie->is_action("camera_center")) { 
-			//TODO:move this into cameramovement
-			((Camera2D *)owner->get_parent()->get_parent()
-				->get_node("Camera2D"))
-					->set_position(owner->get_position());
-		} else if (ie->is_action("unit_1")) {
-			move_camera_unit(1);	
-			Godot::print("Pressed Key 1");
-		} else if (ie->is_action("unit_2")) {
-			move_camera_unit(2);	
-		} else if (ie->is_action("unit_3")) {
-			move_camera_unit(3);	
-		} else if (ie->is_action("unit_4")) {
-			move_camera_unit(4);	
-		} //for the sake of this game, limit to 4 characters
-		
+		//Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
+		//Unit *u = (Unit *)(Object *)a[0];
+		//int index = a.find((Variant *)(Object *)this);
+
+		Godot::print(owner->get_parent()->get_name()
+			+ owner->get("selected")
+			+" IS SELECTED: "+String::num(selected)
+			//+String::num(index)
+			);//+", OPEN_ARRAY SIZE:"+open_arr.size());
+			/**/
+		//if (index != -1) {
+			//Unit *u = (Unit *)(Object *)a[index];
+		if (this->selected || owner->get("selected")) {
+	//		if (ie->get_class() == "InputEventMouseButton") {
+				get_move_cursor_position(ie);
+		//	}
+		}
 	}
 
 }
 
-void Unit::move_camera_unit(int i) {
+void Unit::_draw() {
 
-	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
-	
-	int l = a.size();
-	Camera2D *c = ((Camera2D *)owner->get_parent()->get_parent()
-					->get_node("Camera2D"));
-						//->set_position(owner->get_position());
-
-	--i;
-	if (i < l) {
-		
-		Node2D *n = (Node2D *)(Object *)a[i];
-		Unit *u = (Unit *)(Object *)a[i];
-
-		u->selected = true;
-		//c->set_position(u->owner->get_position());
-		c->set_position(n->get_position());
-		//Godot::print(u->owner->get_position());
-		//Godot::print(u->owner->get("name"));
-			
-	}
+	//get transform -> get scale
+	Color c = Color();
+	Vector2 p = Vector2(0, 0);//owner->get_position();
+	Vector2 pa = Vector2(100, 100);//owner->get_position();
+	//Vector2 pr = owner->get_size()-owner->get_global_position();
+	//Vector2 pb = ((Node2D *)owner->get_node("MoveCursor"))->get_position();
+	//owner->draw_line(p,	pr, c, 2.0, false);
 
 }
 
@@ -99,14 +95,16 @@ void Unit::get_move_cursor_position(InputEvent *ie) {
 
 	InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
 	if (iemb->get_button_index() == 1) {
-		Vector2 target;
-		target = iemb->get_global_position()-a;
-
+		Vector2 target = iemb->get_global_position()-a;
 		Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
-			->get_node("Camera2D");
-		target = c->get_global_position()+target;
+			//->find_node("Camera2D")[0];
+			->find_node("UnitController")->get_child(0);
 
+		target = c->get_global_position()+target;
 		point_b = target;
+
+		Godot::print("epic");
+		//Godot::print(point_b);
 
 		owner->set_process(true);
 	}
@@ -134,17 +132,12 @@ void Unit::move_to(Vector2 point_b) {
 	bool flag_x = (pos.x > point_b.x-leeway && pos.x < point_b.x+leeway);
 	bool flag_y = (pos.y > point_b.y-leeway && pos.y < point_b.y+leeway);
 
-	//Godot::print(String::num(deg));
-	//Godot::print(String::num(flag_x_1));
-	//Godot::print(String::num(flag_x_2));
-	//Godot::print(spd);
-	//Godot::print(spd.floor());
-
 	if (flag_x && flag_y) {
 		owner->set_process(false);
 	} else {
 		owner->set_position(spd);
 		owner->look_at(point_b);
+		owner->update();
 	}
 
 }
@@ -185,18 +178,17 @@ void Unit::find_path() {
 
 	while(i < l) {
 		as->add_point(i, vec_vec((Vector2 *)(Object *)points[i]));
-		++i;	
+		++i;
 	}
 	//as->add_point(1, vec_vec(owner->get_position()));
 	//as->add_point(2, vec_vec(point_b));
-	
+
 	as->connect_points(1, 2, false);
-	
+
 	PoolVector3Array pv3a = as->get_point_path(1, 2);
 	//Godot::print(as->get_point_path(1, 2));
 
 }
-
 
 Vector3 Unit::vec_vec(Vector2 *a) {
 
@@ -214,3 +206,17 @@ Vector2 Unit::vec_vec(Vector3 a) {
 	return Vector2(a.x, a.y);
 
 }
+
+Vector2 Unit::vec_vec(Vector3 *a) {
+
+	return Vector2(a->x, a->y);
+
+}
+
+
+ void Unit::action_1() {};
+ void Unit::action_2() {};
+ void Unit::action_3() {};
+ void Unit::action_4() {};
+ //void action_5() {};
+ //void action_6() {};

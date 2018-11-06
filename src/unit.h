@@ -23,30 +23,51 @@ struct area {
 class Unit : public godot::GodotScript<Area2D> {
 	GODOT_CLASS(Unit)
 private:
+
 	Vector3 vec_vec(Vector2 a);
 	Vector2 vec_vec(Vector3 a);
 	Vector3 vec_vec(Vector2 *a);
 	Vector2 vec_vec(Vector3 *a);
+
 public:
 	static void _register_methods();
 
-	Array open_arr;
+	//complex data
+	Array open_arr = Array();
 	Array closed_arr;
 	Vector2 point_b;
+
+	//simple data
 	bool selected;
+
 	Unit();
 	~Unit();
 
-	void _ready();
 	void _process(float delta);
+	void _ready();
 	void _input(Variant event);
+	void _draw();
 
+	//functions
 	void move_camera_unit(int i);
 	void move_to(Vector2 point_b);
 	void find_path();
-	Array get_points();
 	void get_move_cursor_position(InputEvent *ie);
-	//String _name;
+
+	//virtual
+
+	virtual void action_1();
+	virtual void action_2();
+	virtual void action_3();
+	virtual void action_4();
+	/*
+	virtual void action_5();
+	*/
+	//virtual void action_6() = 0;
+
+	//returning functions
+	Array get_points();
+
 };
 }
 #endif

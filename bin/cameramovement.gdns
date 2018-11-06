@@ -6,7 +6,7 @@
 
 resource_local_to_scene = true
 resource_name = "CameraMovement"
-class_name = "CameraMovement"
+class_name = "UnitController"
 library = ExtResource( 1 )
 _sections_unfolded = [ "Resource" ]
 

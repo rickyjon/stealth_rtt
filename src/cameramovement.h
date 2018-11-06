@@ -18,19 +18,22 @@ public:
 	static void _register_methods();
 
 	int camera_speed;
-	float time_passed;
 	Vector2 viewport_size; //screen_size
 	Vector2 viewport_leeway;
 	Vector2 process_direction;
-	char no_selected_unit;
 	CameraMovement();
 	~CameraMovement();
-	//void _init();
 
 	void _process(float delta);
 	void _input(Variant event);
 	void _ready();
 
+	//functions
+	void directional_edge(InputEvent *ie);
+	void move_camera_unit(int i);
+	void center_camera();
+	//flexible array member
+	char no_selected_unit;
 	Unit *selected_unit[];
 
 };
