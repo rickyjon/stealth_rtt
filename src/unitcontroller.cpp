@@ -77,6 +77,7 @@ void UnitController::_input(Variant event) {
 		switch (index) { //TODO: redo all this and get the action on whether or not it's a left_click action or right_click action
 			case LEFT_CLICK:
 				move_raycast(ie);
+				g_ie = ie;
 				break;
 			case RIGHT_CLICK:
 				move_unit(iemb);
@@ -191,7 +192,7 @@ void UnitController::spawn_raycast(float delta) {
 
 	if (dic.size() == 0) {
 		label->set_text("No Target, Move Instead");
-		move_unit(point_b);
+		move_unit((InputEventMouseButton *)g_ie);
 		owner->set_physics_process(false);
 	} else {
 		Array arr_val = dic.values();

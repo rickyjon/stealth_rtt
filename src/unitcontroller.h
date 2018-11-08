@@ -53,6 +53,7 @@ public:
 	//void _draw();
 
 	Vector2 point_b;
+	InputEvent *g_ie;
 
 	void set_selected_units(Array u);
 	void set_selected_units(Unit *u);
