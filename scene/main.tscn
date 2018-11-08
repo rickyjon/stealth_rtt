@@ -1,17 +1,12 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/_gdscript/main.gd" type="Script" id=1]
-[ext_resource path="res://asset/2d/static/tmp.png" type="Texture" id=2]
-[ext_resource path="res://bin/unit.gdnlib" type="GDNativeLibrary" id=3]
-[ext_resource path="res://bin/cameramovement.gdnlib" type="GDNativeLibrary" id=4]
-[ext_resource path="res://scene/object/UnitTree.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/_gdscript/UnitTree.gd" type="Script" id=6]
-
-
-
-
-
-
+[ext_resource path="res://bin/unit.gdnlib" type="GDNativeLibrary" id=2]
+[ext_resource path="res://bin/cameramovement.gdnlib" type="GDNativeLibrary" id=3]
+[ext_resource path="res://scene/RayCast2D.gd" type="Script" id=4]
+[ext_resource path="res://asset/2d/static/tmp.png" type="Texture" id=5]
+[ext_resource path="res://scene/object/UnitTree.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/_gdscript/UnitTree.gd" type="Script" id=7]
 
 [sub_resource type="Environment" id=1]
 
@@ -92,6 +87,18 @@ adjustment_contrast = 1.0
 adjustment_saturation = 1.0
 _sections_unfolded = [ "Auto Exposure", "DOF Near Blur", "Glow", "SS Reflections", "SSAO", "Tonemap" ]
 
+[sub_resource type="NativeScript" id=5]
+
+resource_name = "UnitController"
+class_name = "UnitController"
+library = ExtResource( 2 )
+
+[sub_resource type="NativeScript" id=6]
+
+class_name = "CameraMovement"
+library = ExtResource( 3 )
+_sections_unfolded = [ "Resource" ]
+
 [sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
@@ -107,19 +114,6 @@ points = PoolVector2Array( 0, 0, 100, 150, -100, 150 )
 custom_solver_bias = 0.0
 length = 800.0
 
-[sub_resource type="NativeScript" id=6]
-
-resource_name = "UnitController"
-class_name = "UnitController"
-library = ExtResource( 3 )
-
-[sub_resource type="NativeScript" id=5]
-
-resource_name = "CameraMovement"
-class_name = "CameraMovement"
-library = ExtResource( 4 )
-_sections_unfolded = [ "Resource" ]
-
 [node name="Map" type="Node" index="0"]
 
 script = ExtResource( 1 )
@@ -129,7 +123,122 @@ boundry = [ Vector2( 0, 0 ), Vector2( 7680, 2160 ) ]
 
 environment = SubResource( 1 )
 
-[node name="Wall" type="Area2D" parent="." index="1"]
+[node name="UnitController" type="Node" parent="." index="1"]
+
+editor/display_folded = true
+script = SubResource( 5 )
+_sections_unfolded = [ "Pause" ]
+
+[node name="Node2D" type="Node2D" parent="UnitController" index="0"]
+
+position = Vector2( 256, 364 )
+
+[node name="Label" type="Label" parent="UnitController/Node2D" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "a"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor" ]
+
+[node name="Camera2D" type="Camera2D" parent="UnitController" index="1"]
+
+position = Vector2( 640, 360 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = false
+smoothing_speed = 8.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.0
+drag_margin_top = 0.0
+drag_margin_right = 0.0
+drag_margin_bottom = 0.0
+editor_draw_screen = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = SubResource( 6 )
+_sections_unfolded = [ "Drag Margin", "Editor", "Offset", "Smoothing", "Transform" ]
+
+[node name="Label" type="Label" parent="UnitController/Camera2D" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -82.0
+margin_top = 14.0
+margin_right = 291.0
+margin_bottom = 112.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "a"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect" ]
+
+[node name="RayCast2D" type="RayCast2D" parent="UnitController" index="2"]
+
+editor/display_folded = true
+visible = false
+position = Vector2( 256.248, 364.776 )
+enabled = false
+exclude_parent = false
+cast_to = Vector2( 0, 100 )
+collision_mask = 31
+script = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Sprite" type="Sprite" parent="UnitController/RayCast2D" index="0"]
+
+visible = false
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="UnitController/RayCast2D" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Wall" type="Area2D" parent="." index="2"]
 
 editor/display_folded = true
 position = Vector2( 246.129, 109.464 )
@@ -145,7 +254,7 @@ audio_bus_name = "Master"
 
 modulate = Color( 0.570312, 0.570312, 0.570312, 1 )
 self_modulate = Color( 0.558594, 0.558594, 0.558594, 1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" index="1"]
@@ -155,7 +264,7 @@ scale = Vector2( 3, 3 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Enemy" type="Area2D" parent="." index="2"]
+[node name="Enemy" type="Area2D" parent="." index="3"]
 
 editor/display_folded = true
 position = Vector2( 169.059, 30.6496 )
@@ -171,7 +280,7 @@ audio_bus_name = "Master"
 
 modulate = Color( 1, 0, 0, 1 )
 self_modulate = Color( 1, 0, 0, 1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" index="1"]
@@ -197,73 +306,21 @@ build_mode = 0
 polygon = PoolVector2Array( -120, 0, 0, 0, 120, 0, 100, 40, 60, 75, 0, 90, -60, 75, -100, 40 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="UnitController" type="Node" parent="." index="3"]
+[node name="UnitTree" parent="." index="4" instance=ExtResource( 6 )]
 
-script = SubResource( 6 )
-_sections_unfolded = [ "Pause" ]
-
-[node name="Camera2D" type="Camera2D" parent="UnitController" index="0"]
-
-position = Vector2( 640, 360 )
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-smoothing_enabled = false
-smoothing_speed = 8.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.0
-drag_margin_top = 0.0
-drag_margin_right = 0.0
-drag_margin_bottom = 0.0
-editor_draw_screen = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = SubResource( 5 )
-_sections_unfolded = [ "Drag Margin", "Editor", "Offset", "Smoothing", "Transform" ]
-
-[node name="Label" type="Label" parent="UnitController/Camera2D" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -82.0
-margin_top = 14.0
-margin_right = 291.0
-margin_bottom = 112.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "a"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="UnitTree" parent="." index="4" instance=ExtResource( 5 )]
-
-script = ExtResource( 6 )
+editor/display_folded = true
+script = ExtResource( 7 )
 
 [node name="Unit" parent="UnitTree" index="0"]
 
-editor/display_folded = true
+_sections_unfolded = [ "Collision" ]
+selected = false
 
 [node name="Label" parent="UnitTree/Unit" index="2"]
 
 visible = false
 
-[node name="UnitTree2" parent="." index="5" instance=ExtResource( 5 )]
+[node name="UnitTree2" parent="." index="5" instance=ExtResource( 6 )]
 
 editor/display_folded = true
 
@@ -271,6 +328,7 @@ editor/display_folded = true
 
 position = Vector2( 252.78, 532.62 )
 _sections_unfolded = [ "Transform" ]
+selected = false
 
 [node name="MoveCursor" parent="UnitTree2" index="1"]
 

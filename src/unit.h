@@ -50,7 +50,7 @@ public:
 
 	//functions
 	void move_camera_unit(int i);
-	void move_to(Vector2 point_b);
+	void move_to(float delta, Vector2 point_b);
 	void find_path();
 	void get_move_cursor_position(InputEvent *ie);
 

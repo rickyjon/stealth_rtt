@@ -35,13 +35,15 @@ Unit::~Unit() {}
 
 void Unit::_process(float delta) {
 
-	move_to(point_b);
+	move_to(delta, point_b);
 
 }
 
 void Unit::_ready() {
 
 	point_b = owner->get_global_position();
+	owner->set_process_input(false);
+	owner->set("selected", false);
 	//selected = false;
 	//selected = !selected;
 	//owner->set_process(true);
@@ -60,6 +62,7 @@ void Unit::_input(Variant event) {
 		//Unit *u = (Unit *)(Object *)a[0];
 		//int index = a.find((Variant *)(Object *)this);
 
+/*
 		Godot::print(owner->get_parent()->get_name()
 			+ owner->get("selected")
 			+" IS SELECTED: "+String::num(selected)
@@ -68,10 +71,13 @@ void Unit::_input(Variant event) {
 			/**/
 		//if (index != -1) {
 			//Unit *u = (Unit *)(Object *)a[index];
-		if (this->selected || owner->get("selected")) {
-	//		if (ie->get_class() == "InputEventMouseButton") {
-				get_move_cursor_position(ie);
-		//	}
+		if (owner->get("selected")) {
+				//if (iemb->get_button_index() == 2) {
+				InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
+	Godot::print(iemb->get_button_index());
+
+			get_move_cursor_position(ie);
+				//}
 		}
 	}
 
@@ -94,16 +100,17 @@ void Unit::get_move_cursor_position(InputEvent *ie) {
 	Vector2 a = ((Vector2)owner->get_viewport()->get("size"))/Vector2(2, 2);
 
 	InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
-	if (iemb->get_button_index() == 1) {
+	Godot::print(iemb->get_button_index());
+	if (iemb->get_button_index() == 2) {
 		Vector2 target = iemb->get_global_position()-a;
 		Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
 			//->find_node("Camera2D")[0];
-			->find_node("UnitController")->get_child(0);
+			->find_node("UnitController")->get_node("Camera2D");
 
 		target = c->get_global_position()+target;
 		point_b = target;
 
-		Godot::print("epic");
+		//Godot::print("epic");
 		//Godot::print(point_b);
 
 		owner->set_process(true);
@@ -111,7 +118,7 @@ void Unit::get_move_cursor_position(InputEvent *ie) {
 
 }
 
-void Unit::move_to(Vector2 point_b) {
+void Unit::move_to(float delta, Vector2 point_b) {
 
 	//Sprite *s = (Sprite *)owner->get_node("Sprite");
 	Sprite *s = (Sprite *)owner->get_parent()->get_node("MoveCursor");
@@ -121,7 +128,10 @@ void Unit::move_to(Vector2 point_b) {
 	Vector2 pos = owner->get_position();
 	const int leeway = 20;
 	float deg = pos.angle_to_point(point_b)*180/3.141; //angle to degrees
-	Vector2 spd = (pos+Vector2(cos(-deg), -sin(-deg)));
+	Vector2 deg_vec = Vector2(cos(-deg), -sin(-deg));
+	Vector2 movement_speed = Vector2(200, 200);
+	Vector2 del = Vector2(delta, delta);
+	Vector2 spd = (pos+(deg_vec*movement_speed*del));
 
 	s->set_position(point_b);
 

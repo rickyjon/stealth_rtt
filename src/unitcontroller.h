@@ -47,15 +47,22 @@ public:
 	/**/
 
 	void _process(float delta);
+	void _physics_process(float delta);
 	void _ready();
 	void _input(Variant event);
 	//void _draw();
+
+	Vector2 point_b;
 
 	void set_selected_units(Array u);
 	void set_selected_units(Unit *u);
 	Array get_selected_units();
 	//static void
-
+	
+	//void look_under_cursor(InputEvent *ie);
+	void spawn_raycast(float delta);
+	void check_objects_in_raycast(float delta);
+	void move_raycast(InputEvent *ie);
 
 	//functions
 	void move_camera_unit(int i);

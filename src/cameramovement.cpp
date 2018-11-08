@@ -44,8 +44,7 @@ void CameraMovement::_ready() {
 	//u->selected = false;
 	u->selected = true;
 	a->set("selected", true);
-
-
+	a->set_process_input(true);
 
 }
 
@@ -91,10 +90,10 @@ void CameraMovement::center_camera() {
 	while (i < l) {
 
 		Unit *up = (Unit *)(Object *)a[i];
-		//Area2D *n = (Area2D *)(Object *)a[i];
+		Area2D *n = (Area2D *)(Object *)a[i];
 		//Unit &ru = (Unit &)(Object &)a[i];
 		//Unit u = (Unit &)(Object &)a[i];
-		if (up->selected) {
+		if (n->get("selected")) {
 		//if (u.selected) {
 
 			label->set_text("Selected Unit "+String::num(i+1));
@@ -113,59 +112,29 @@ void CameraMovement::move_camera_unit(int i) {
 
 	Label *label = (Label *)owner->get_node("Label");
 	Array arr = owner->get_tree()->get_nodes_in_group("unit_squad");
-	//Array *var =(Array *)new Array();
-//		var->append(false);
 
 	int k = 0;
 	int l = arr.size();
 
-	//owner->get_tree()->call_group("unit_squad",
-	//		"set_visible", var); //why the hell does this not work
 	while(k < l) {
 		Unit *up = (Unit *)(Object *)arr[k];
-		//Unit &ru = (Unit &)(Object &)a[k];
-		//Unit u = (Unit &)(Object &)a[k];
-		//NodePath np = ((Node2D *)(Object *)a[k])->get_path();
-
-		//Godot::print(np);
-		//if (!np.is_empty()) {
-			//Unit *tmp = (Unit *)owner->get_node(np);
-			//	tmp->selected = false;
-		//NodePath np = ((Node2D *)(Object *)a[k])->get_path();
 		up->selected = false;
 		Area2D *n = (Area2D *)(Object *)arr[k];
 		n->set("selected", false);
-
-
-		//}
-		//ru.selected = false;
-		//((Unit *)(Object *)a[k])->selected = false;
-		//u.selected = false;
+		n->set_process_input(false);
 
 		++k;
 	}
 
 	if (i < l) {
 		Node2D *n = (Node2D *)(Object *)arr[i];
-		//Variant &v = a[i];
 		Unit *up = (Unit *)(Object *)arr[i];
-		//Area2D *a = (Area2D *)(Object *)a[i];
-		//Unit &ru = (Unit &)(Object &)a[i];
-		//Unit u = (Unit &)(Object &)a[i];
 
-		//Godot::print(String::num(i)+n->get_position());
-		//((Unit *)(Object *)a[i])->selected = true;
+		n->set("selected", true);
+		n->set_process_input(true);
 
-		up->selected = true;
-		n->set("selected",  true);
-		//a[i] = (Variant *)(Object *)up;
-		//ru.selected = true;
-		//u.selected = true;
-
-		//u->owner->set("selected", true);
 		label->set_text("Selected Unit "+String::num(i+1));
 		owner->set_global_position(n->get_global_position());
-
 	}
 
 }
