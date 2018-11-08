@@ -102,15 +102,8 @@ void Unit::get_move_cursor_position_a(InputEventMouseButton *iemb) {
 
 }
 
-<<<<<<< HEAD
-=======
-
-void Unit::get_move_cursor_position(Vector2 v, bool flag = (const bool *) false) {
->>>>>>> eb18fa4861d75574080b8e51724d838386fed297
-
 void Unit::get_move_cursor_position(Vector2 v, bool flag = (const bool *) false) {
 
-<<<<<<< HEAD
 	const Vector2 a = ((Vector2)owner->get_viewport()->get("size"))/Vector2(2, 2);
 	Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
 	->find_node("UnitController")->get_node("Camera2D");
@@ -118,13 +111,6 @@ void Unit::get_move_cursor_position(Vector2 v, bool flag = (const bool *) false)
 	Vector2 target = v;
 	if (!flag) {
 		target -= a;
-=======
-	Vector2 target = v-a;
-	if (!flag) {
-		Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
-			->find_node("UnitController")->get_node("Camera2D");
-
->>>>>>> eb18fa4861d75574080b8e51724d838386fed297
 		target = c->get_global_position()+target;
 	}
 	point_b = target;

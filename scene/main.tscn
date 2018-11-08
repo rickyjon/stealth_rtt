@@ -204,10 +204,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="RayCast2D" type="RayCast2D" parent="UnitController" index="2"]
 
-<<<<<<< HEAD
-=======
-visible = false
->>>>>>> eb18fa4861d75574080b8e51724d838386fed297
 position = Vector2( 256.248, 364.776 )
 enabled = false
 exclude_parent = false
