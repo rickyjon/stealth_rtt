@@ -308,7 +308,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="UnitTree" parent="." index="4" instance=ExtResource( 6 )]
 
-editor/display_folded = true
 script = ExtResource( 7 )
 
 [node name="Unit" parent="UnitTree" index="0"]

@@ -25,11 +25,7 @@ void Unit::_register_methods() {
 	register_property((char *)"selected", &Unit::selected, false);
 }
 
-Unit::Unit() {
-
-	selected = false;
-
-}
+Unit::Unit() {}
 
 Unit::~Unit() {}
 
@@ -122,7 +118,6 @@ void Unit::move_to(float delta, Vector2 point_b) {
 
 	//Sprite *s = (Sprite *)owner->get_node("Sprite");
 	Sprite *s = (Sprite *)owner->get_parent()->get_node("MoveCursor");
-
 	Label *a = (Label *)owner->get_node("Label");
 
 	Vector2 pos = owner->get_position();
@@ -134,9 +129,6 @@ void Unit::move_to(float delta, Vector2 point_b) {
 	Vector2 spd = (pos+(deg_vec*movement_speed*del));
 
 	s->set_position(point_b);
-
-	//s->set_global_position(point_b);
-	//owner->set_position(point_b);
 
 	//leeway
 	bool flag_x = (pos.x > point_b.x-leeway && pos.x < point_b.x+leeway);
@@ -223,10 +215,9 @@ Vector2 Unit::vec_vec(Vector3 *a) {
 
 }
 
-
- void Unit::action_1() {};
- void Unit::action_2() {};
- void Unit::action_3() {};
- void Unit::action_4() {};
- //void action_5() {};
- //void action_6() {};
+void Unit::action_1() {};
+void Unit::action_2() {};
+void Unit::action_3() {};
+void Unit::action_4() {};
+//void action_5() {};
+//void action_6() {};
