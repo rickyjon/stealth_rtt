@@ -22,6 +22,7 @@ void Unit::_register_methods() {
 	register_method((char *)"_draw", &Unit::_draw);
 	//register_method((char *)"_find_path", &Unit::find_path);
 	//register_property((char *)"base/name", &Unit::_name, String("Unit"));
+	register_method((char *)"get_move_cursor_position", &Unit::get_move_cursor_position);
 	register_property((char *)"selected", &Unit::selected, false);
 }
 
@@ -69,10 +70,10 @@ void Unit::_input(Variant event) {
 			//Unit *u = (Unit *)(Object *)a[index];
 		if (owner->get("selected")) {
 				//if (iemb->get_button_index() == 2) {
-				InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
-	Godot::print(iemb->get_button_index());
+				//InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
+				//Godot::print(iemb->get_button_index());
 
-			get_move_cursor_position(ie);
+			//get_move_cursor_position_a(ie);
 				//}
 		}
 	}
@@ -91,26 +92,28 @@ void Unit::_draw() {
 
 }
 
-void Unit::get_move_cursor_position(InputEvent *ie) {
+void Unit::get_move_cursor_position_a(InputEventMouseButton *iemb) {
 
-	Vector2 a = ((Vector2)owner->get_viewport()->get("size"))/Vector2(2, 2);
-
-	InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
+	//InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
 	Godot::print(iemb->get_button_index());
 	if (iemb->get_button_index() == 2) {
-		Vector2 target = iemb->get_global_position()-a;
-		Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
-			//->find_node("Camera2D")[0];
-			->find_node("UnitController")->get_node("Camera2D");
-
-		target = c->get_global_position()+target;
-		point_b = target;
-
-		//Godot::print("epic");
-		//Godot::print(point_b);
-
-		owner->set_process(true);
+		get_move_cursor_position(iemb->get_global_position());
 	}
+
+}
+
+void Unit::get_move_cursor_position(Vector2 v) {
+
+	const Vector2 a = ((Vector2)owner->get_viewport()->get("size"))/Vector2(2, 2);
+
+	Vector2 target = v-a;
+	Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
+		->find_node("UnitController")->get_node("Camera2D");
+
+	target = c->get_global_position()+target;
+	point_b = target;
+	owner->set_process(true);
+
 
 }
 

@@ -61,6 +61,8 @@ public:
 
 	//void look_under_cursor(InputEvent *ie);
 	void spawn_raycast(float delta);
+	void move_unit(InputEventMouseButton *iemb);
+	void move_unit(Vector2 v);
 	void move_raycast(InputEvent *ie);
 
 

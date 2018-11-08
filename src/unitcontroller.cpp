@@ -54,6 +54,8 @@ void UnitController::_ready() {
 
 void UnitController::_input(Variant event) {
 
+	const int LEFT_CLICK = 1;
+	const int RIGHT_CLICK = 2;
 	InputEvent *ie = (InputEvent *)(Object *)event;
 
 	//Godot::print(owner->get_parent()->get_name()
@@ -65,12 +67,23 @@ void UnitController::_input(Variant event) {
 		//int index = a.find((Variant *)(Object *)this);
 		//if (index != -1) {
 			//Unit *u = (Unit *)(Object *)a[index];
-		if (ie->get_class() == "InputEventMouseButton") {
-			//Godot::print("now this is epic");
-			//get_move_cursor_position(ie);
-			move_raycast(ie);
-			//spawn a hitbox
+	if (ie->get_class() == "InputEventMouseButton") {
+
+		InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
+		int index = iemb->get_button_index();
+		//Godot::print(String("Pressed mouse: ")+String::num(index));
+		//get_move_cursor_position(ie);
+
+		switch (index) {
+			case LEFT_CLICK:
+				move_raycast(ie);
+				break;
+			case RIGHT_CLICK:
+				move_unit(iemb);
+				break;
 		}
+
+	}
 	//}
 
 }
@@ -91,6 +104,62 @@ Array UnitController::get_selected_units() {
 
 //	return UnitController::selected_units;
 	return selected_units;
+
+}
+
+void UnitController::move_unit(InputEventMouseButton *iemb) {
+
+	//Label *label = (Label *)owner->get_node("Label");
+	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
+	/*Camera2D *c = ((Camera2D *)owner->get_parent()->get_parent()
+					->get_node("Camera2D"));*/
+
+	int i = 0;
+	int l = a.size();
+
+	while (i < l) {
+
+		Unit *up = (Unit *)(Object *)a[i];
+		Area2D *n = (Area2D *)(Object *)a[i];
+
+		Godot::print(String::num(i));
+		if (n->get("selected")) {
+			n->call("get_move_cursor_position", iemb->get_global_position());
+		} else {
+			//n->call("get_move_cursor_position", iemb);
+		}
+
+		++i;
+
+	}
+
+}
+
+void UnitController::move_unit(Vector2 v) {
+
+	//Label *label = (Label *)owner->get_node("Label");
+	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
+	/*Camera2D *c = ((Camera2D *)owner->get_parent()->get_parent()
+					->get_node("Camera2D"));*/
+
+	int i = 0;
+	int l = a.size();
+
+	while (i < l) {
+
+		Unit *up = (Unit *)(Object *)a[i];
+		Area2D *n = (Area2D *)(Object *)a[i];
+
+		if (n->get("selected")) {
+			n->call("get_move_cursor_position", v);
+		} else {
+			//n->call("get_move_cursor_position", iemb);
+		}
+
+		++i;
+
+	}
+
 
 }
 
@@ -140,32 +209,18 @@ void UnitController::spawn_raycast(float delta) {
 	Dictionary dic = (Dictionary ) space->intersect_ray(start, end);
 
 	if (dic.size() == 0) {
-		label->set_text("No Target");
+		label->set_text("No Target, Move Instead");
+		move_unit(point_b);
+		owner->set_physics_process(false);
 	} else {
 		Array arr_val = dic.values();
 		Array arr_key = dic.keys();
 		Variant vp = (Variant )arr_val[3];
-		/*
-		int j = 0;
-		int l = arr_key.size();
-		while(j < l) {
-			Godot::print(arr_key[j]);
-			++j;
-		}
-			Godot::print("\n");
-			*/
-
 		Object *op = (Object *)arr_val[3];
 
-		//Object op = (Object )vp;
-		//CollisionShape2D *cs = (CollisionShape2D *)op;
-		//Node *cs = (Node *)op;
 		Array node_arr = owner->get_tree()->get_nodes_in_group("unit_squad");
 
-		label->set_text("Target Get");
-
-		label->set_text(op->get_class());
-		//bool s = op->is_class("CollisionShape2D");
+		label->set_text(String("Target Get: ")+op->get_class());
 
 		int k = 0;
 		int l = node_arr.size();
@@ -179,19 +234,7 @@ void UnitController::spawn_raycast(float delta) {
 
 			++k;
 		}
-/*
-		while(k < l) {
-			Unit *up = (Unit *)(Object *)node_arr[k];
-			Area2D *n = (Area2D *)(Object *)node_arr[k];
 
-			up->selected = false;
-			n->set("selected", false);
-			n->set_process_input(false);
-
-			++k;
-		}
-		*/
-		//if (cs->get_parent()) {
 		Area2D *a = (Area2D *)(Object *)arr_val[3];
 		a->set("selected", true);
 		//a->set("show", false);

@@ -9,6 +9,7 @@
 #include <Vector3.hpp>
 #include <Array.hpp>
 #include <InputEvent.hpp>
+#include <InputEventMouseButton.hpp>
 
 namespace godot {
 /*
@@ -52,7 +53,8 @@ public:
 	void move_camera_unit(int i);
 	void move_to(float delta, Vector2 point_b);
 	void find_path();
-	void get_move_cursor_position(InputEvent *ie);
+	void get_move_cursor_position_a(InputEventMouseButton *iemb);
+	void get_move_cursor_position(Vector2 v);
 
 	//virtual
 
