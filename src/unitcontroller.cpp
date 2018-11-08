@@ -74,7 +74,7 @@ void UnitController::_input(Variant event) {
 		//Godot::print(String("Pressed mouse: ")+String::num(index));
 		//get_move_cursor_position(ie);
 
-		switch (index) {
+		switch (index) { //TODO: redo all this and get the action on whether or not it's a left_click action or right_click action
 			case LEFT_CLICK:
 				move_raycast(ie);
 				break;
@@ -85,25 +85,6 @@ void UnitController::_input(Variant event) {
 
 	}
 	//}
-
-}
-
-void UnitController::set_selected_units(Array u) {
-	selected_units = u;
-	//UnitController::selected_units = u;
-}
-
-void UnitController::set_selected_units(Unit *u) {
-	Array a = Array();
-	a.append((Variant *)(Object *)u);
-	//UnitController::selected_units = a;
-	selected_units = a;
-}
-
-Array UnitController::get_selected_units() {
-
-//	return UnitController::selected_units;
-	return selected_units;
 
 }
 
@@ -135,7 +116,7 @@ void UnitController::move_unit(InputEventMouseButton *iemb) {
 
 }
 
-void UnitController::move_unit(Vector2 v) {
+void UnitController::move_unit(Vector2 v, bool flag = (const bool *) false) {
 
 	//Label *label = (Label *)owner->get_node("Label");
 	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
@@ -179,7 +160,6 @@ void UnitController::move_raycast(InputEvent *ie) { //TODO: rename this
 		rc->set_global_position(point_b);
 		rc->set_rotation(0);
 
-		//owner->set_process(true);
 		owner->set_physics_process(true);
 
 	}
@@ -200,6 +180,7 @@ void UnitController::spawn_raycast(float delta) {
 	Camera2D *c = (Camera2D *)owner->get_node("Camera2D");
 	//Label *label = (Label *)owner->get_node("Node2D")->get_node("Label");
 	Label *label = (Label *)owner->find_node("Label");
+	RayCast2D *rc = (RayCast2D *)owner->get_node("RayCast2D");
 
 	Vector2 start = point_b; //c->get_global_position();
 	Vector2 end = point_b+Vector2(0, 50);
@@ -279,6 +260,24 @@ void UnitController::check_objects_in_raycast(float delta) { //TODO: delete
 }
 */
 
+void UnitController::set_selected_units(Array u) {
+	selected_units = u;
+	//UnitController::selected_units = u;
+}
+
+void UnitController::set_selected_units(Unit *u) {
+	Array a = Array();
+	a.append((Variant *)(Object *)u);
+	//UnitController::selected_units = a;
+	selected_units = a;
+}
+
+Array UnitController::get_selected_units() {
+
+//	return UnitController::selected_units;
+	return selected_units;
+
+}
 
 Vector3 UnitController::vec_vec(Vector2 *a) {
 

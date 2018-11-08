@@ -97,25 +97,31 @@ void Unit::get_move_cursor_position_a(InputEventMouseButton *iemb) {
 	//InputEventMouseButton *iemb = (InputEventMouseButton *)ie;
 	Godot::print(iemb->get_button_index());
 	if (iemb->get_button_index() == 2) {
-		get_move_cursor_position(iemb->get_global_position());
+		get_move_cursor_position(iemb->get_global_position(), false);
 	}
 
 }
 
-void Unit::get_move_cursor_position(Vector2 v) {
+
+void Unit::get_move_cursor_position(Vector2 v, bool flag = (const bool *) false) {
 
 	const Vector2 a = ((Vector2)owner->get_viewport()->get("size"))/Vector2(2, 2);
 
 	Vector2 target = v-a;
-	Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
-		->find_node("UnitController")->get_node("Camera2D");
+	if (!flag) {
+		Camera2D *c = (Camera2D *)owner->get_parent()->get_parent()
+			->find_node("UnitController")->get_node("Camera2D");
 
-	target = c->get_global_position()+target;
+		target = c->get_global_position()+target;
+	}
 	point_b = target;
 	owner->set_process(true);
 
 
 }
+
+
+
 
 void Unit::move_to(float delta, Vector2 point_b) {
 

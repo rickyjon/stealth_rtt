@@ -54,7 +54,7 @@ public:
 	void move_to(float delta, Vector2 point_b);
 	void find_path();
 	void get_move_cursor_position_a(InputEventMouseButton *iemb);
-	void get_move_cursor_position(Vector2 v);
+	void get_move_cursor_position(Vector2 v, bool flag);
 
 	//virtual
 

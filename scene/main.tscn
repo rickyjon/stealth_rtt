@@ -125,7 +125,6 @@ environment = SubResource( 1 )
 
 [node name="UnitController" type="Node" parent="." index="1"]
 
-editor/display_folded = true
 script = SubResource( 5 )
 _sections_unfolded = [ "Pause" ]
 
@@ -205,7 +204,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="RayCast2D" type="RayCast2D" parent="UnitController" index="2"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( 256.248, 364.776 )
 enabled = false
@@ -217,7 +215,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="UnitController/RayCast2D" index="0"]
 
-visible = false
 texture = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="UnitController/RayCast2D" index="1"]
