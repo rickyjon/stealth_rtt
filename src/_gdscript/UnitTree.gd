@@ -11,6 +11,7 @@ func _ready():
 	#get_node("Unit").get_script().unreference();
 	#get_vi
 	
+	
 	pass
 
 #func _process(delta):

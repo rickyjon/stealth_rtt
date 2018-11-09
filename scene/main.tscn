@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/_gdscript/main.gd" type="Script" id=1]
 [ext_resource path="res://bin/unit.gdnlib" type="GDNativeLibrary" id=2]
@@ -87,32 +87,39 @@ adjustment_contrast = 1.0
 adjustment_saturation = 1.0
 _sections_unfolded = [ "Auto Exposure", "DOF Near Blur", "Glow", "SS Reflections", "SSAO", "Tonemap" ]
 
-[sub_resource type="NativeScript" id=5]
+[sub_resource type="NativeScript" id=2]
 
 resource_name = "UnitController"
 class_name = "UnitController"
 library = ExtResource( 2 )
 
-[sub_resource type="NativeScript" id=6]
+[sub_resource type="NativeScript" id=3]
 
 class_name = "CameraMovement"
 library = ExtResource( 3 )
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=4]
 
 custom_solver_bias = 0.0
 radius = 10.0
 
-[sub_resource type="ConvexPolygonShape2D" id=3]
+[sub_resource type="ConvexPolygonShape2D" id=5]
 
 custom_solver_bias = 0.0
 points = PoolVector2Array( 0, 0, 100, 150, -100, 150 )
 
-[sub_resource type="RayShape2D" id=4]
+[sub_resource type="RayShape2D" id=6]
 
 custom_solver_bias = 0.0
 length = 800.0
+
+[sub_resource type="NavigationPolygon" id=7]
+
+vertices = PoolVector2Array( 34.5439, -33.4913, 112.085, 16.8425, -11.9889, 35.4175, 396.214, -56.1056, 391.327, 48.1512, 272.609, 52.2122, 268.337, -60.1782 )
+polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 5, 6 ) ]
+outlines = [ PoolVector2Array( 34.5439, -33.4913, 112.085, 16.8425, -11.9889, 35.4175 ), PoolVector2Array( 268.337, -60.1782, 272.609, 52.2122, 391.327, 48.1512, 396.214, -56.1056 ) ]
+_sections_unfolded = [ "Resource" ]
 
 [node name="Map" type="Node" index="0"]
 
@@ -125,7 +132,7 @@ environment = SubResource( 1 )
 
 [node name="UnitController" type="Node" parent="." index="1"]
 
-script = SubResource( 5 )
+script = SubResource( 2 )
 _sections_unfolded = [ "Pause" ]
 
 [node name="Node2D" type="Node2D" parent="UnitController" index="0"]
@@ -177,7 +184,7 @@ drag_margin_bottom = 0.0
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = SubResource( 6 )
+script = SubResource( 3 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Offset", "Smoothing", "Transform" ]
 
 [node name="Label" type="Label" parent="UnitController/Camera2D" index="0"]
@@ -257,7 +264,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 position = Vector2( 3.05176e-05, -1.85062 )
 scale = Vector2( 3, 3 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Enemy" type="Area2D" parent="." index="3"]
@@ -282,17 +289,17 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" index="1"]
 
 scale = Vector2( 3, 3 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="TrueVision" type="CollisionShape2D" parent="Enemy" index="2"]
 
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="GunBox" type="CollisionShape2D" parent="Enemy" index="3"]
 
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 disabled = true
 
 [node name="EyeVision" type="CollisionPolygon2D" parent="Enemy" index="4"]
@@ -309,7 +316,6 @@ script = ExtResource( 7 )
 [node name="Unit" parent="UnitTree" index="0"]
 
 _sections_unfolded = [ "Collision" ]
-selected = false
 
 [node name="Label" parent="UnitTree/Unit" index="2"]
 
@@ -323,11 +329,39 @@ editor/display_folded = true
 
 position = Vector2( 252.78, 532.62 )
 _sections_unfolded = [ "Transform" ]
-selected = false
 
 [node name="MoveCursor" parent="UnitTree2" index="1"]
 
 position = Vector2( 252.78, 532.62 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="6"]
+
+position = Vector2( 1151.47, 298.638 )
+build_mode = 0
+polygon = PoolVector2Array( -2.18604, 0.518127, -173.593, 1.87851, -130.061, -74.3025, -184.476, -162.727, -13.0691, -160.006, -34.8351, -86.5458 )
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="7"]
+
+position = Vector2( 781.446, 285.034 )
+polygon = PoolVector2Array( 80.7965, -17.1668, -40.2767, -11.7253, -17.1504, -43.0139, -38.9164, -93.3477, -38.9162, -112.393, 52.2289, -143.682, 65.8326, -132.799, 56.3098, -62.0591 )
+uv = PoolVector2Array(  )
+color = Color( 1, 1, 1, 1 )
+vertex_colors = PoolColorArray(  )
+offset = Vector2( 0, 0 )
+antialiased = false
+texture = null
+texture_offset = Vector2( 0, 0 )
+texture_scale = Vector2( 1, 1 )
+texture_rotation_degrees = 0.0
+invert_enable = false
+invert_border = 100.0
+
+[node name="NavPolyIns" type="NavigationPolygonInstance" parent="." index="8"]
+
+position = Vector2( 733.833, 380.26 )
+navpoly = SubResource( 7 )
+enabled = true
+_sections_unfolded = [ "Transform" ]
 
 
 [editable path="UnitTree"]

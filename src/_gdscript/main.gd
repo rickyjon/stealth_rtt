@@ -27,6 +27,12 @@ func _ready():
 	var a = RayCast2D;
 	var b = a.new();
 	
+	var i = 0;
+	while(i < $NavPolyIns.navpoly.get_outline_count()):
+		
+		print($NavPolyIns.navpoly.get_outline(i));
+		i += 1
+	
 	#var c = b.instance();
 
 	pass

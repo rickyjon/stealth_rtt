@@ -77,10 +77,9 @@ void UnitController::_input(Variant event) {
 		switch (index) { //TODO: redo all this and get the action on whether or not it's a left_click action or right_click action
 			case LEFT_CLICK:
 				move_raycast(ie);
-				g_ie = ie;
 				break;
 			case RIGHT_CLICK:
-				move_unit(iemb);
+				move_unit();
 				break;
 		}
 
@@ -89,7 +88,7 @@ void UnitController::_input(Variant event) {
 
 }
 
-void UnitController::move_unit(InputEventMouseButton *iemb) {
+void UnitController::move_unit() {
 
 	//Label *label = (Label *)owner->get_node("Label");
 	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
@@ -106,7 +105,7 @@ void UnitController::move_unit(InputEventMouseButton *iemb) {
 
 		Godot::print(String::num(i));
 		if (n->get("selected")) {
-			n->call("get_move_cursor_position", iemb->get_global_position());
+			n->call("get_move_cursor_position");
 		} else {
 			//n->call("get_move_cursor_position", iemb);
 		}
@@ -114,34 +113,6 @@ void UnitController::move_unit(InputEventMouseButton *iemb) {
 		++i;
 
 	}
-
-}
-
-void UnitController::move_unit(Vector2 v, bool flag = (const bool *) false) {
-
-	//Label *label = (Label *)owner->get_node("Label");
-	Array a = owner->get_tree()->get_nodes_in_group("unit_squad");
-	/*Camera2D *c = ((Camera2D *)owner->get_parent()->get_parent()
-					->get_node("Camera2D"));*/
-
-	int i = 0;
-	int l = a.size();
-
-	while (i < l) {
-
-		Unit *up = (Unit *)(Object *)a[i];
-		Area2D *n = (Area2D *)(Object *)a[i];
-
-		if (n->get("selected")) {
-			n->call("get_move_cursor_position", v);
-		} else {
-			//n->call("get_move_cursor_position", iemb);
-		}
-
-		++i;
-
-	}
-
 
 }
 
@@ -192,7 +163,7 @@ void UnitController::spawn_raycast(float delta) {
 
 	if (dic.size() == 0) {
 		label->set_text("No Target, Move Instead");
-		move_unit((InputEventMouseButton *)g_ie);
+		move_unit();
 		owner->set_physics_process(false);
 	} else {
 		Array arr_val = dic.values();

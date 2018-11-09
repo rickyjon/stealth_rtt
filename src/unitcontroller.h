@@ -53,7 +53,6 @@ public:
 	//void _draw();
 
 	Vector2 point_b;
-	InputEvent *g_ie;
 
 	void set_selected_units(Array u);
 	void set_selected_units(Unit *u);
@@ -62,8 +61,7 @@ public:
 
 	//void look_under_cursor(InputEvent *ie);
 	void spawn_raycast(float delta);
-	void move_unit(InputEventMouseButton *iemb);
-	void move_unit(Vector2 v, bool flag);
+	void move_unit();
 	void move_raycast(InputEvent *ie);
 
 

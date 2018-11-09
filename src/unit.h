@@ -8,6 +8,7 @@
 #include <Vector2.hpp>
 #include <Vector3.hpp>
 #include <Array.hpp>
+#include <AStar.hpp>
 #include <InputEvent.hpp>
 #include <InputEventMouseButton.hpp>
 
@@ -53,8 +54,9 @@ public:
 	void move_camera_unit(int i);
 	void move_to(float delta, Vector2 point_b);
 	void find_path();
-	void get_move_cursor_position_a(InputEventMouseButton *iemb);
-	void get_move_cursor_position(Vector2 v, bool flag);
+	void get_move_cursor_position();
+
+	void area_entered(Variant a);
 
 	//virtual
 
@@ -68,7 +70,8 @@ public:
 	//virtual void action_6() = 0;
 
 	//returning functions
-	Array get_points();
+	void get_points(AStar *as);
+	//AStar get_points(AStar *as);
 
 };
 }

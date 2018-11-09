@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 30, 30 )
+extents = Vector2( 10, 10 )
 
 [node name="UnitTree" type="Node"]
 
@@ -24,16 +24,19 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
+selected = false
 
 [node name="Sprite" type="Sprite" parent="Unit" index="0"]
 
 modulate = Color( 0.0078125, 1, 0, 1 )
+scale = Vector2( 0.4, 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Unit" index="1"]
 
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Unit" index="2"]
 
