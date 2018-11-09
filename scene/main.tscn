@@ -124,6 +124,7 @@ _sections_unfolded = [ "Resource" ]
 [node name="Map" type="Node" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Pause" ]
 boundry = [ Vector2( 0, 0 ), Vector2( 7680, 2160 ) ]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]

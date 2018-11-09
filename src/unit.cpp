@@ -146,6 +146,85 @@ void Unit::move_to(float delta, Vector2 point_b) {
 	}
 
 }
+/* move this to another file */
+int Unit::astar_calculate_point_index(Vector2 *point, Vector2 *map_boundry) {
+	return point->x + (map_boundry->x * point->y);
+}
+
+void Unit::astar_add_walk_cells(AStar *as) {
+
+	Array map_boundries = owner->get_tree()->get_root()
+		->get_node("Map")->get("Boundry");
+
+	Array point_array = Array(); 
+	Array obstacle_array = Array(); 
+
+	int id = 0;
+	Vector2 *map_boundry_nw = ((Vector2 *)(Object *)map_boundries[0]);
+	Vector2 *map_boundry = ((Vector2 *)(Object *)map_boundries[1]);
+
+	int x = 0; //use map_boundry_nw
+	int y = 0;
+	int map_end_x = (int)map_boundry->x;
+	int map_end_y = (int)map_boundry->y;
+	int point_index = 0;
+		
+	while(y < map_end_y) {
+		while(x < map_end_y) {
+			Vector2 point = Vector2(x, y);
+			if (obstacle_array.has(point)) {
+				continue;
+			}
+			point_array.append(point);
+			
+			point_index = astar_calculate_point_index((Vector2 *)&point,
+				   	map_boundry);
+			as->add_point(point_index, Vector3(x,y,0));
+			++x;
+		}
+		++y;
+	}
+}
+
+Array Unit::astar_con_walk_cells(AStar *as,  Array point_array) {
+
+	Array map_boundries = owner->get_tree()->get_root()
+		->get_node("Map")->get("Boundry");
+	Vector2 *map_boundry = ((Vector2 *)(Object *)map_boundries[1]);
+
+	int x = 0; //use map_boundry_nw
+	int y = 0;
+	int localx = -1; //use map_boundry_nw
+	int localy = -1;
+	const int LOCALMAX = 1;
+	int index = 0;
+	int length = point_array.size();
+
+	while(index < length) {
+		Vector2 *point = (Vector2 *)(Object *)point_array[index];
+		int point_index = astar_calculate_point_index(point, map_boundry);
+		localx = -1;
+		localy = -1;
+		while(localy <= LOCALMAX) {
+			while(localx <= LOCALMAX) {
+				/*
+				Vector2 point = Vector2(x, y);
+				if (obstacle_array.has(point)) {
+					continue;
+				}
+				point_array.append(point);
+				
+				point_index = astar_calculate_point_index(point, map_boundry);
+				as->add_point(point_index, Vector3(x,y,0));
+				*/
+				++localx;
+			}
+			++localy;
+		}
+		++index;
+	}
+	return point_array;
+}
 
 void Unit::get_points(AStar *as) {
 
@@ -186,65 +265,19 @@ void Unit::get_points(AStar *as) {
 	}
 
 	i = 0;
+	int x = -1; int y = -1;
+	const int z = 1;
 	//connect to whatever
 
 	while(i < id) {
 
-		//int col = id;
-		//int row = row*l/col;
-
-		//TO THE LEFT / WEST
-		/*
-		 *  X X X
-		 * [X]O X
-		 *  X X X
-		 */
-
-		if (id > 0) {
-			as->connect_points(id-1, id);
+		while(x < z) {
+			while(y < z) {
+				as->connect_points(id+x, id+y);
+				++y;
+			}
+			++x;
 		}
-		//TO THE RIGHT / EAST
-		/*
-		 *  X X X
-		 *  X O[X]
-		 *  X X X
-		 */
-
-		if (id /(l*(id%l+1)) == id/l || id < l) {
-
-			as->connect_points(id, id+1);
-
-		}
-
-		//TO THE UP / NORTH
-
-		if (id > p) {
-
-			as->connect_points(id, id-l);
-
-		}
-
-		//TO THE DOWN / SOUTH
-				/*
-		 *  X X X
-		 *  X O X
-		 *  X[X]X
-		 */
-		if (id < l*p-l) {
-
-			as->connect_points(id, id+l);
-
-		}
-
-
-
-		//x
-		/*
-		while(k < p) {
-			points.append(Vector2(i, k));
-			++k;
-		}
-		*/
 		++i;
 	}
 

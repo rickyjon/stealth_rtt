@@ -12,7 +12,18 @@
 #include <InputEvent.hpp>
 #include <InputEventMouseButton.hpp>
 
-namespace godot {
+struct gun_attr {
+	bool supressed;
+	bool hitscan;
+
+	bool generic_ammo;
+	unsigned int ammo;
+	unsigned int current_ammo;
+	unsigned int max_ammo;
+
+	unsigned int range;
+	unsigned int rof;
+};
 /*
 struct area {
 	area *parent;
@@ -22,6 +33,7 @@ struct area {
 	bool traversable;
 };
 */
+namespace godot {
 class Unit : public godot::GodotScript<Area2D> {
 	GODOT_CLASS(Unit)
 private:
@@ -58,6 +70,10 @@ public:
 
 	void area_entered(Variant a);
 
+	//astar func
+	int astar_calculate_point_index(Vector2 *point, Vector2 *map_boundry);
+	void astar_add_walk_cells(AStar *as);
+	Array astar_con_walk_cells(AStar *as, Array point_array);
 	//virtual
 
 	virtual void action_1();
