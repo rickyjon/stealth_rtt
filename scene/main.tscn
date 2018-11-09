@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/_gdscript/main.gd" type="Script" id=1]
 [ext_resource path="res://bin/unit.gdnlib" type="GDNativeLibrary" id=2]
@@ -98,6 +98,11 @@ library = ExtResource( 2 )
 class_name = "CameraMovement"
 library = ExtResource( 3 )
 _sections_unfolded = [ "Resource" ]
+
+[sub_resource type="RectangleShape2D" id=8]
+
+custom_solver_bias = 0.0
+extents = Vector2( 30, 4 )
 
 [sub_resource type="CircleShape2D" id=4]
 
@@ -242,10 +247,11 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Wall" type="Area2D" parent="." index="2"]
+[node name="Wall" type="Area2D" parent="." index="2" groups=[
+"wall",
+]]
 
-editor/display_folded = true
-position = Vector2( 246.129, 109.464 )
+position = Vector2( 577.743, 285.822 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -254,23 +260,21 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 
-[node name="wall" type="Sprite" parent="Wall" index="0"]
+[node name="WallSprite" type="Sprite" parent="Wall" index="0"]
 
 modulate = Color( 0.570312, 0.570312, 0.570312, 1 )
 self_modulate = Color( 0.558594, 0.558594, 0.558594, 1 )
+position = Vector2( 0, -20 )
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" index="1"]
 
-position = Vector2( 3.05176e-05, -1.85062 )
-scale = Vector2( 3, 3 )
-shape = SubResource( 4 )
+shape = SubResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Enemy" type="Area2D" parent="." index="3"]
 
-editor/display_folded = true
 position = Vector2( 169.059, 30.6496 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )

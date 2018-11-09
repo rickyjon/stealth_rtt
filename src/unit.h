@@ -71,9 +71,15 @@ public:
 	void area_entered(Variant a);
 
 	//astar func
+	AStar *as;
 	int astar_calculate_point_index(Vector2 *point, Vector2 *map_boundry);
-	void astar_add_walk_cells(AStar *as);
+	bool astar_out_of_bounds(Vector2 vec, Array map_boundry) ;
+
+	void get_points(AStar *as);
+	void astar_add_walk_cells(AStar *as, Array obstacle_array);
 	Array astar_con_walk_cells(AStar *as, Array point_array);
+	Array astar_add_unwalk_cells(Array map_boundries);
+
 	//virtual
 
 	virtual void action_1();
@@ -86,7 +92,6 @@ public:
 	//virtual void action_6() = 0;
 
 	//returning functions
-	void get_points(AStar *as);
 	//AStar get_points(AStar *as);
 
 };

@@ -11,6 +11,9 @@
 #include <SceneTree.hpp>
 #include <AStar.hpp>
 #include <Color.hpp>
+#include <CollisionShape2D.hpp>
+#include <RectangleShape2D.hpp>
+#include <Shape2D.hpp>
 
 using namespace godot;
 
@@ -151,13 +154,25 @@ int Unit::astar_calculate_point_index(Vector2 *point, Vector2 *map_boundry) {
 	return point->x + (map_boundry->x * point->y);
 }
 
-void Unit::astar_add_walk_cells(AStar *as) {
+bool Unit::astar_out_of_bounds(Vector2 vec, Array map_boundry) {
+
+	bool flag = false;
+
+	Vector2 *map_start = ((Vector2 *)(Object *)map_boundry[0]);
+	Vector2 *map_end = ((Vector2 *)(Object *)map_boundry[1]);
+
+	return map_start->x < vec.x || map_start->y < vec.y ||
+			map_end->x >= vec.x || map_end->y >= vec.y;
+
+}
+
+void Unit::astar_add_walk_cells(AStar *as, Array obstacle_array) {
 
 	Array map_boundries = owner->get_tree()->get_root()
 		->get_node("Map")->get("Boundry");
 
 	Array point_array = Array(); 
-	Array obstacle_array = Array(); 
+	//Array obstacle_array = Array(); 
 
 	int id = 0;
 	Vector2 *map_boundry_nw = ((Vector2 *)(Object *)map_boundries[0]);
@@ -207,16 +222,22 @@ Array Unit::astar_con_walk_cells(AStar *as,  Array point_array) {
 		localy = -1;
 		while(localy <= LOCALMAX) {
 			while(localx <= LOCALMAX) {
-				/*
-				Vector2 point = Vector2(x, y);
-				if (obstacle_array.has(point)) {
-					continue;
+				Vector2 point_tmp = Vector2(point->x+localx, point->y+localy);
+				int point_tmp_index = astar_calculate_point_index(
+						(Vector2 *)&point_tmp,
+									map_boundry);
+				bool flag = point_tmp.x == point->x && point_tmp.y == point->y;
+				bool black_flag = astar_out_of_bounds(point_tmp, map_boundries);
+				//if the point is point or the point is out of bounds
+				if (flag || black_flag) {
+
+					//check if it's there or not
+					if (as->has_point(point_tmp_index)) {
+						as->connect_points(point_index, point_tmp_index);
+
+					}
+
 				}
-				point_array.append(point);
-				
-				point_index = astar_calculate_point_index(point, map_boundry);
-				as->add_point(point_index, Vector3(x,y,0));
-				*/
 				++localx;
 			}
 			++localy;
@@ -226,71 +247,75 @@ Array Unit::astar_con_walk_cells(AStar *as,  Array point_array) {
 	return point_array;
 }
 
-void Unit::get_points(AStar *as) {
+Array Unit::astar_add_unwalk_cells(Array map_boundries) {
 
-	Array points = owner->get_tree()->get_root()
-		->get_node("Map")->get("Boundry");
-	//points.clear();
+	Array obstacle_array = Array(); 
+	Array tmp_array = owner->get_tree()->get_nodes_in_group("wall");
+
+	Array cs_array = Array();
+
+	Vector2 *map_boundry_nw = ((Vector2 *)(Object *)map_boundries[0]);
+	Vector2 *map_boundry = ((Vector2 *)(Object *)map_boundries[1]);
+
+	int x = 0; //use map_boundry_nw
+	int y = 0;
+	int map_end_x = (int)map_boundry->x;
+	int map_end_y = (int)map_boundry->y;
+	int point_index = 0;
 	int i = 0;
-	int k = 0;
-	int id = 0;
-	int l = ((Vector2 *)(Object *)points[1])->x;
-	int p = ((Vector2 *)(Object *)points[1])->y;
-	//y
+	int l = tmp_array.size();
+
+	//draw simple rect
+	//sort them first
 	while(i < l) {
-		points.append(Vector2(i, 0));
-		//x
-		while(k < p) {
-			points.append(Vector2(i, k));
-			++k;
-		}
+		Node *n = (Node *)(Object *)tmp_array[i];
+		CollisionShape2D *cs = (CollisionShape2D *) n->get_child(1);
+		//cs_array.append(cs->get_shape());
+
+		//cast it to rectangleshape2d
+		//((RectangleShape2D )cs->get_shape())->get_extents();
+		//cs->get_shape();
+
 		++i;
 	}
 
-	i = 0;
-	k = 0;
-	while(i < l) {
-
-		Vector2 v = (Vector2)points[i];
-		as->add_point(id, vec_vec(v));
-		//x
-		/*
-		while(k < p) {
-			points.append(Vector2(i, k));
-			++k;
-		}
-		*/
-		++i;
-		++id;
-	}
-
-	i = 0;
-	int x = -1; int y = -1;
-	const int z = 1;
-	//connect to whatever
-
-	while(i < id) {
-
-		while(x < z) {
-			while(y < z) {
-				as->connect_points(id+x, id+y);
-				++y;
+	/*	
+	while(y < map_end_y) {
+		while(x < map_end_y) {
+			Vector2 point = Vector2(x, y);
+			if (obstacle_array.has(point)) {
+				continue;
 			}
+			point_array.append(point);
+			
+			point_index = astar_calculate_point_index((Vector2 *)&point,
+				   	map_boundry);
+			as->add_point(point_index, Vector3(x,y,0));
 			++x;
 		}
-		++i;
-	}
+		++y;
+	}*/
+	return obstacle_array ;
+}
 
+void Unit::get_points(AStar *as) {
+
+	Vector2 start_pos = owner->get_global_position();
+	Vector2 end_pos = owner->get_global_mouse_position();
+	Array map_boundries = owner->get_tree()->get_root()
+		->get_node("Map")->get("Boundry");
+	Array obstacles = astar_add_unwalk_cells(map_boundries);
+	astar_add_walk_cells(as, obstacles);
 
 }
 
 void Unit::find_path() {
 //make every level have a set boundary
-	AStar *as = new AStar();
+	as = new AStar();
 
 	int i = 0;
 	int l = 0;
-	get_points((AStar *)as);
+	get_points(as);
 
 	//l = points.size();
 /*
